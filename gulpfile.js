@@ -9,6 +9,8 @@ gulp.task('connect', function(){
     });
   });
 
+  
+
 gulp.task('sass', function () {
     return gulp.src('./project/*.scss')
       .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
