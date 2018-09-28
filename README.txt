@@ -1,10 +1,10 @@
-Для установки:
-1. Скачайте установите node.js
-2. В командной строке - npm install
-3. В командной строке - npm start
+To start:
+1. download and install node.js
+2. CLI - npm install
+3. CLI - npm start
 
-!!!! ЕСли появляется такая ошибка
-
+!!!! IF YOU HAVE SOMETHING LIKE THAT:
+_____________________________________________________________________________________________________________
 
 $ npm start
 
@@ -36,14 +36,16 @@ npm ERR! This is probably not a problem with npm. There is likely additional log
 
 npm ERR! A complete log of this run can be found in:
 npm ERR!     C:\Users\Alexander\AppData\Roaming\npm-cache\_logs\2018-09-28T14_08_42_372Z-debug.log
+___________________________________________________________________________________________________________
 
-
-то скорее всего у вас отличается докальная версия gulp.
-Проверить можно командой gulp -v.
-Если локальная верси 4.0.0, то делаем следующее:
+it means that you probably have a different gulp version.
+Check that by doing gulp -v command.
+If your gulp local version is 4.0.0? do following:
 
 npm uninstall gulp
 npm install gulp@3.9.1
 
-Должно помочь.
+THAT should help.
+
+IF not - god bless you.
 
