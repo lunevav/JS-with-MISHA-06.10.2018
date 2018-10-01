@@ -1,1 +1,1 @@
-body{background:black;color:white}ul li{list-style-type:none;color:orange}ul li:hover{color:red}
+body{background:black;color:white}ul{width:200px;height:70px;background:black;color:white}ul li{list-style:none;font-size:18px;cursor:pointer}ul li:hover{background:limegreen}#itemInfo{color:white;font-size:22px}

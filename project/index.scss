@@ -4,14 +4,23 @@ body {
 }
 
 ul {
+    width: 200px;
+    height: 70px;
+    background: black;
+    color: white;
     li {
-        list-style-type: none;
-        color: orange;
+        list-style: none;
+        font-size: 18px;
+        cursor: pointer;
         &:hover {
-            color: red;
+            background: limegreen;
         }
     }
-   
 }
 
+#itemInfo {
+    color: white;
+    font-size: 22px;
+
+}
 
