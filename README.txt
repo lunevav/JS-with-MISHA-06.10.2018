@@ -1,3 +1,6 @@
+main JS file - /ccs/blabla.js
+
+
 To start:
 1. download and install node.js
 2. CLI - npm install
