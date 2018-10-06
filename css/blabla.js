@@ -1,188 +1,129 @@
-// @Good Luck!
-
-// @TODO
-// 1) Choose the elemets of the row by click
-// 2) Selected Row From Css onClick
-
-// ALL DATA FROM EVENT
-// SASHA PUSH THIS CODE THE GIT REPO
-
-// table constructor
+document.getElementById('cup').style.display = 'none';
 
 
-// update loaders
-document.getElementById('loader').style.display = "block";
-
-  class ListManager {
-    constructor(name, theList, propertyCounter) {
-        // List Of Table
+class DrinkTypes {
+    constructor(types = []) {
+        this.types = types;
+    }
+}
+class Drink {
+    constructor(name, color, price) {
         this.name = name;
-        // Array of objects
-        this.theList = theList;
-        // Amount of object key names
-        this.propertyCounter = propertyCounter;
+        this.color = color;
+        this.price = price;
+    }
+    
+}
+
+class Cup {
+    constructor(drinkType = "", isEmpty = true) {
+        this.drinkType = drinkType;
+        this.isEmpty = isEmpty;
     }
 
-    // check if our list is array
-    isArray() {
-        if (!Array.isArray(this.theList)) 
-            return;
+    toFillCup(type) {
+        this.isEmpty = false; 
+        this.drinkType = type;
     }
 
-    // Show the list of properties by object key
-    showListByProperty(property) {
-        // check if our list is array
-        // this === ListManager
-        this.isArray();
+    toEmpty() {
+        this.drinkType = "";
+        this.isEmpty = true;
+    }
+    dooEmpty(){
+        return this.isEmpty;
+    }
+    
+}
 
-            for (var i = 0; i < this.theList.length;i++) {
-                // check if property exist
-               if (this.theList[i].hasOwnProperty(property)) {
-                    console.log(this.theList[i][property]);
-               } else {
-                   // if current object has no property
-                   console.log(`${this.theList[i].name} hasNoProperty ${property}`)
-               }
-            }
+class CoffeMachine {
+    constructor(amountOfCups = 0, drinks = [], cupExist = false, inMakeingProcess = false, activeDrink = null, cup = null, animation = null, height=0) {
+        this.amountOfCups = amountOfCups;
+        this.drinks = drinks;
+        this.cupExist = cupExist;
+        this.inMakeingProcess = inMakeingProcess;
+        this.activeDrink = activeDrink;
+        this.cup = cup;
+        this.animation = animation;
+        this.height = height;
     }
 
-    // get value of clicked elelemt
-    clickItem(item) {
-        console.log(item)
-
-        var itemInfo = document.getElementById('itemInfo');
-        itemInfo.innerHTML = item.title;
+    addCup() { 
+        this.cupExist = true; 
+        this.cup = new Cup();
+        this.height = 0;
+        document.getElementById('cup').style.height = 0;
+        if (this.cup.dooEmpty()) {
+            document.getElementById('cup').style.display = 'block';
+            document.getElementById('cup').style.background = 'blue';
+        }
+    }
+    removeCup() { 
+        this.cupExist = false;
+        this.cup = null;
+        document.getElementById('cup').style.display = 'none';
     }
 
-    // Render the the list of items to the HTML Table
-    displayItems() {
-        var table = document.getElementById('table');
-        var trHEAD = document.createElement('tr');
-
-        table.appendChild(trHEAD);
-        // array of object keys names
-        let arrayOfKeys = [];
-        // property Counter of list object
-        let propertyCounter = 0;
-
-        // check object length by property 
-        Object.size = function(obj) {
-            var size = 0, key;
-            for (key in obj) {
-                if (obj.hasOwnProperty(key)) {
-                    size++;
-                    arrayOfKeys.push(key);
-
-                    // create category by property name
-                    var th = document.createElement('th');
-                    th.id = key;
-                    th.innerHTML = key.toUpperCase();
-                    trHEAD.appendChild(th);
-
-                } 
-            }
-          
-            propertyCounter = size;
-            return size;
-        };
-        
-        var size = Object.size(this.theList[0]);
-
-        // build rows of our table
-        for (var i = 0; i < this.theList.length; i++) {
-            var trBODY = document.createElement('tr');
-            trBODY.onclick = this.clickItem.bind(this, this.theList[i]);
-            table.appendChild(trBODY);
-            // build columns of our table
-            for (var j = 0; j < propertyCounter; j++) {
-                var td = document.createElement('td');
-
-                td.innerHTML = this.theList[i][arrayOfKeys[j]];
-                trBODY.appendChild(td);
+    setTypeOfDrink(button) {
+        for (var i=0; i<this.drinks.length; i++){
+            if (this.drinks[i].name === button.innerHTML) {
+                this.activeDrink=this.drinks[i];
+                document.getElementById('drinkType').innerHTML = this.drinks[i].name;
             }
         }
     }
-}
 
-
-var httpRequest;
-// AJAX call by method and url
-// MDN LINK: https://developer.mozilla.org/ru/docs/Web/Guide/AJAX
-
-  function makeRequest(method, url) {
-    httpRequest = new XMLHttpRequest();
-
-    if (!httpRequest) {
-      alert('Giving up :( Cannot create an XMLHTTP instance');
-      return false;
+    updateCupHeight() {
+        this.height += 1;
+        console.log(this.height);
+        document.getElementById('cup').style.height = this.height + "px";
+        console.log(document.getElementById('cup').style.height);
     }
 
-    httpRequest.onreadystatechange = alertContents;
-    httpRequest.open(method, url);
-    httpRequest.send();
-  }
+    makeDrinkByType() {
+        if (this.cupExist && this.cup.dooEmpty()) {
+           this.inMakeingProcess = true;
+           
+           for (var i = 0; i < document.getElementsByTagName('button').length; i++) {
+            document.getElementsByTagName('button')[i].disabled = true;
+           }
+           this.animation = window.setInterval(this.updateCupHeight.bind(this), 100);
+           window.setTimeout(this.startMakingCoffe.bind(this), 5000);
+        } 
+    }
 
-  function alertContents() {
-    if (httpRequest.readyState === XMLHttpRequest.DONE) {
-        // check status of our request
-      if (httpRequest.status === 200) {
+    startMakingCoffe() {
+        clearInterval(this.animation);
+        this.amountOfCups = this.amountOfCups - 1;
+        this.inMakeingProcess = false;
+        this.cup.toFillCup(this.activeType);
+        document.getElementById('cup').style.background=this.activeDrink.color;
+        for (var i = 0; i < document.getElementsByTagName('button').length; i++) {
+            document.getElementsByTagName('button')[i].disabled = false;
+           }
         
-        // parse string to javascript plain object
-        var RESPONSE = JSON.parse(httpRequest.responseText);
-
-        // remove loader if data recieved 
-        document.getElementById('loader').style.display = "none";
-
-        // update our list manager with the new value
-        var userTable = new ListManager('Table', RESPONSE);
-
-        // render items to the table
-        userTable.displayItems();
-  
-      } else {
-        alert('There was a problem with the request.');
-      }
+        // cup.toFillCup(this.activeType)
     }
-  }
-
-  // Run our query to the server
-   setTimeout(
-    () => makeRequest('GET', "https://jsonplaceholder.typicode.com/todos"),
-    1000
-  );
-
-
- // Simple Promise Example
- // check this link: https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Promise
-  var myPromise = new Promise(function(resolve, reject) {
-     setTimeout(function() {
-         reject("error")
-     }, 1000);
-
-    setTimeout(function(){
-        resolve("Success!"); // Ура! Всё прошло хорошо!
-
-      }, 2500);
-  });
-
-  var result = myPromise.then(function(data) {
-      console.log(data);
-  }).catch(function(error) {
-        console.log(error);
-  });
-
-
-
-// interview example with setTimeout
-var i = 0;
-
-function test() {
-    i++;
-    console.log(i)
 }
 
-test();
-setTimeout(test, 0); 
-test();
-setTimeout(test, 0); 
-test();
+
+
+
+
+var drinkTypesForMonday = new DrinkTypes(
+    [
+        new Drink("Tea", "red", "6"),
+        new Drink("Coffe", "brown", "8"),
+        new Drink("Green Tea", "green", "7"),
+        new Drink("Milk","white", "11")
+    ]
+);
+
+
+
+var machine1 = new CoffeMachine(
+    10,
+    drinkTypesForMonday.types
+);
+
+

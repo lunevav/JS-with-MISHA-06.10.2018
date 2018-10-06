@@ -3,12 +3,40 @@
         <link rel="stylesheet" href="./index.css" type="text/css">
     </head>
     <body>    
-    <div id="itemInfo">No item selected</div>
-    <h1>React App</h1>
-    <div id="loader">
-        <img src="https://media.giphy.com/media/8RyJliVfFM6ac/giphy.gif" alt="table-loader">
-    </div>
-    <table id="table" style="width:100%"></table>
+        <h1>Coffe Machine</h1>
+
+
+        <div class="coffeMachine">
+
+            <div class="buttonArea">
+                <button onclick="machine1.setTypeOfDrink(this)">Coffe</button>
+                <button onclick="machine1.setTypeOfDrink(this)">Tea</button>
+                <button onclick="machine1.setTypeOfDrink(this)">Green Tea</button>
+                <button onclick="machine1.setTypeOfDrink(this)">Milk</button>
+            </div>
+
+            <div>
+                <h1>Selected Type: <span id="drinkType">Coffe</span></h1>
+            </div>
+
+                <div>
+                    <button onclick="machine1.addCup()">ADD CUP</button>
+                </div>
+           
+                    <div>
+                        <button onclick="machine1.removeCup()">REMOVE CUP</button>
+                    </div>
+            <div>
+                <button onclick="machine1.makeDrinkByType()">START MAKING COFFE!!</button>
+            </div>
+
+            <div class="bottomArea">
+
+                <div id="cup" class="cup">CUP</div>
+            </div>
+
+        </div>
+        <div class="box"></div>
         <script src="./blabla.js"></script>
     </body>
 </html>
